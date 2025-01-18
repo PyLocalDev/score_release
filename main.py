@@ -1,9 +1,9 @@
 import customtkinter as ctk
 import tkinter as tk
-from PIL import Image, ImageTk
+from PIL import Image
 
 #* Pre setup
-ctk.set_appearance_mode("system")
+ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 
 #* Global variable
@@ -11,6 +11,7 @@ sc1 = None
 sc2 = None
 s1 = None
 s2 = None
+err = None
 score_int = None
 
 #* Team name
@@ -29,7 +30,7 @@ class Control(ctk.CTk):
         super().__init__()
 
         self.geometry("800x600")
-        self.title(f"Score of {team_1[0]} and {team_2[0]}")
+        self.title(f"SCore v1.1 By PyLocalDev")
 
         SCore(self)
         Top(self)
@@ -43,7 +44,8 @@ class MainPage(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
 
-        ctk.CTkLabel(self, text="Hello World!", font=title_f).pack(side="bottom")
+        global err
+        err = ctk.CTkLabel(self, text="", font=normal_f).pack(side="bottom")
         t_1(self)
         t_2(self)
 
@@ -51,17 +53,16 @@ class BurgerMenu(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
 
-        self.configure(fg_color="blue",width=280,height=600)
+        self.configure(fg_color="#ff6500",width=280,height=600)
 
-        ctk.CTkLabel(self, text="Menu").place(x=0,y=0)
-        ctk.CTkButton(self, text="close", command=self.close_menu, width=90, fg_color="#800001", hover_color="#320001").place(x=0, y=20)
-        ctk.CTkButton(self, text="Exit", command=self.exit_app, width=90, fg_color="#800001", hover_color="#320001").place(x=100, y=20)
+        ctk.CTkLabel(self, text="Menu", font=normal_f).place(x=30,y=0)
+        ctk.CTkButton(self, image=ctk.CTkImage(dark_image=Image.open("assets/Close.png")), text="", command=self.close_menu, width=20, fg_color="#ff6500", hover_color="#ff6500").place(x=230, y=10)
+        ctk.CTkButton(self, text="Exit", command=self.exit_app, width=90, fg_color="#800001", hover_color="#320001").place(x=0, y=550)
 
         self.place(x=0, y=0)
 
     def close_menu(self):
         self.place_forget()
-        print("hello World!")
 
     def exit_app(self):
         CloseDialog()
@@ -95,10 +96,17 @@ class t_1(ctk.CTkFrame):
         global sc1
         global team_1
         global s1
+        global err
 
-        team_1[1]-=1
-        sc1.configure(text=f"score: {team_1[1]}")
-        s1.configure(text=team_1[1])
+        if team_1[1] <= -1:
+            team_1[1] = 0
+            err.configure(text="Errno(02): Cannot go under negative")
+            sc1.configure(text=f"score: {team_1[1]}")
+            s1.configure(text=team_1[1])
+        else:
+            team_1[1]-=1
+            sc1.configure(text=f"score: {team_1[1]}")
+            s1.configure(text=team_1[1])
 
 class t_2(ctk.CTkFrame):
     def __init__(self, master=None):
@@ -163,14 +171,14 @@ class Top(ctk.CTkFrame):
         super().__init__(master)
         self.configure(fg_color="#b40001", height=75, corner_radius=20)
 
-        menu_p = Image.open("assets/menu.png")
-        menu_p_ctk = ctk.CTkImage(light_image=menu_p, dark_image=menu_p, size=(20,20))
-        ctk.CTkButton(self, text="menu_p_ctk", command=self.show_menu).place(x=20, y=25, anchor="w")
-        name = ctk.CTkLabel(self, text="SCore v1.0", font=title_f)
-        name.place(x=60,y=25, anchor="w")
+        ctk.CTkButton(self, image=ctk.CTkImage(dark_image=Image.open("assets/menu.png"), size=(40, 40)), text="", width=40, command=self.show_menu, fg_color="#b40001", hover_color="#b40001").place(x=20, y=35, anchor="w")
 
-        ver = ctk.CTkLabel(self, text="Version 1.0 Release", font=s_normal_f)
-        ver.place(x=60, y=60, anchor="w")
+        ver = ctk.CTkLabel(self, text="Simplified things.", font=s_normal_f)
+        ver.place(x=80, y=55, anchor="w")
+
+        name = ctk.CTkLabel(self, text="SCore v1.1", font=title_f)
+        name.place(x=80,y=25, anchor="w")
+
 
         self.pack(side="top", anchor="w",fill='x', padx=5,pady=5)
 
