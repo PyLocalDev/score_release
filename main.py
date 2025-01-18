@@ -7,7 +7,8 @@ ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("blue")
 
 #* Global variable
-sc = None
+sc1 = None
+sc2 = None
 score_int = None
 
 #* Team name
@@ -18,7 +19,7 @@ team_2 = ["world", 0]
 title_f = ("Segoe UI Bold", 35)
 normal_f = ("Segoe UI", 24)
 s_normal_f = ("Segoe UI", 12)
-score_f = ("Segoe UI", 60)
+score_f = ("Segoe UI", 120)
 
 #* Main interface
 class Control(ctk.CTk):
@@ -42,6 +43,7 @@ class MainPage(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="Hello World!", font=title_f).pack(side="bottom")
         t_1(self)
+        t_2(self)
 
 class BurgerMenu(ctk.CTkFrame):
     def __init__(self, master=None):
@@ -57,6 +59,7 @@ class BurgerMenu(ctk.CTkFrame):
 
     def close_menu(self):
         self.place_forget()
+        print("hello World!")
 
     def exit_app(self):
         CloseDialog()
@@ -65,28 +68,61 @@ class t_1(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
 
-        global sc
-        global score_int
+        global sc1
         self.configure(fg_color="#333333", border_color="red", border_width=2, width=300, height=150)
 
-        score_int=str()
         ctk.CTkLabel(self, text=f"team: {team_1[0]}", font=normal_f, anchor="w").place(x=12, y=12)
-        sc = ctk.CTkLabel(self, text=f"score: {team_1[1]}", font=normal_f, anchor="w")
-        sc.place(x=12, y=42)
-        ctk.CTkEntry(self, textvariable=score_int, placeholder_text="Enter the number to added", font=s_normal_f, border_color="#ff6500").place(x=12, y=74)
-        ctk.CTkButton(self, text="Add", width=32, fg_color="#ff6500", hover_color="#ff0000", command=self.add_point).place(x=160, y=74)
+        sc1 = ctk.CTkLabel(self, text=f"score: {team_1[1]}", font=normal_f, anchor="w")
+        sc1.place(x=12, y=42)
+        ctk.CTkButton(self, text="Add team score", width=32, fg_color="#ff6500", hover_color="#ff0000", command=self.add_point).place(x=160, y=40)
+        ctk.CTkButton(self, text="Remove team score", width=32, fg_color="#ff6500", hover_color="#ff0000", command=self.remove_point).place(x=160, y=74)
 
 
         self.place(x=1, y=1)
 
     def add_point(self):
+        global sc1
         global team_1
-        global sc
-        global score_int
-        i_var=int(score_int)
-        team_1[1]+=i_var
-        sc.configure(text=team_1[1])
 
+        team_1[1]+=1
+        sc1.configure(text=f"score: {team_1[1]}")
+
+    def remove_point(self):
+        global sc1
+        global team_1
+
+        team_1[1]-=1
+        sc1.configure(text=f"score: {team_1[1]}")
+
+class t_2(ctk.CTkFrame):
+    def __init__(self, master=None):
+        super().__init__(master)
+
+        global sc2
+        self.configure(fg_color="#333333", border_color="red", border_width=2, width=300, height=150)
+
+        ctk.CTkLabel(self, text=f"team: {team_2[0]}", font=normal_f, anchor="w").place(x=12, y=12)
+        sc2 = ctk.CTkLabel(self, text=f"score: {team_2[1]}", font=normal_f, anchor="w")
+        sc2.place(x=12, y=42)
+        ctk.CTkButton(self, text="Add team score", width=32, fg_color="#ff6500", hover_color="#ff0000", command=self.add_point).place(x=160, y=40)
+        ctk.CTkButton(self, text="Remove team score", width=32, fg_color="#ff6500", hover_color="#ff0000", command=self.remove_point).place(x=160, y=74)
+
+
+        self.place(x=310, y=1)
+
+    def add_point(self):
+        global sc2
+        global team_2
+
+        team_2[1]+=1
+        sc2.configure(text=f"score: {team_2[1]}")
+
+    def remove_point(self):
+        global sc2
+        global team_2
+
+        team_2[1]-=1
+        sc2.configure(text=f"score: {team_2[1]}")
 
 #* Dialog Box
 class CloseDialog(ctk.CTkToplevel):
@@ -140,6 +176,26 @@ class SCore(ctk.CTkToplevel):
         self.minsize(width=450, height=400)
 
         ctk.CTkLabel(self, text="Score of {t1} and {t2}".format(t1=team_1[0], t2=team_2[0]), font=normal_f,anchor="w").pack(side="top", anchor="center",fill="x")
+        t1(self)
+        t2(self)
+
+class t1(ctk.CTkFrame):
+    def __init__(self, master=None):
+        super().__init__(master)
+
+        ctk.CTkLabel(self, text=f"Team {team_1[0]}", font=title_f, anchor="e").pack(side="top", anchor="e", fill="x", padx=5, pady=5)
+        ctk.CTkLabel(self, text=team_1[1], font=score_f, anchor="center").pack(side="top", anchor="center", fill="both", expand=True, padx=5, pady=5)
+
+        self.pack(side="left", expand=True, fill="both")
+
+class t2(ctk.CTkFrame):
+    def __init__(self, master=None):
+        super().__init__(master)
+
+        ctk.CTkLabel(self, text=f"Team {team_2[0]}", font=title_f, anchor="w").pack(side="top", anchor="w", fill="x", padx=5, pady=5)
+        ctk.CTkLabel(self, text=team_2[1], font=score_f, anchor="center").pack(side="top", anchor="center", fill="both", expand=True, padx=5, pady=5)
+
+        self.pack(side="left", expand=True, fill="both")
 
 if __name__ == "__main__":
     Control()
