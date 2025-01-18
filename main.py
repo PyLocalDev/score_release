@@ -9,6 +9,8 @@ ctk.set_default_color_theme("blue")
 #* Global variable
 sc1 = None
 sc2 = None
+s1 = None
+s2 = None
 score_int = None
 
 #* Team name
@@ -83,16 +85,20 @@ class t_1(ctk.CTkFrame):
     def add_point(self):
         global sc1
         global team_1
+        global s1
 
         team_1[1]+=1
         sc1.configure(text=f"score: {team_1[1]}")
+        s1.configure(text=team_1[1])
 
     def remove_point(self):
         global sc1
         global team_1
+        global s1
 
         team_1[1]-=1
         sc1.configure(text=f"score: {team_1[1]}")
+        s1.configure(text=team_1[1])
 
 class t_2(ctk.CTkFrame):
     def __init__(self, master=None):
@@ -113,18 +119,22 @@ class t_2(ctk.CTkFrame):
     def add_point(self):
         global sc2
         global team_2
+        global s2
 
         team_2[1]+=1
         sc2.configure(text=f"score: {team_2[1]}")
+        s2.configure(text=team_2[1])
 
     def remove_point(self):
         global sc2
         global team_2
+        global s2
 
         team_2[1]-=1
         sc2.configure(text=f"score: {team_2[1]}")
+        s2.configure(text=team_2[1])
 
-#* Dialog Box
+#! Dialog Box
 class CloseDialog(ctk.CTkToplevel):
     def __init__(self, master=None,):
         super().__init__(master)
@@ -183,8 +193,11 @@ class t1(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
 
+        global s1
+
         ctk.CTkLabel(self, text=f"Team {team_1[0]}", font=title_f, anchor="e").pack(side="top", anchor="e", fill="x", padx=5, pady=5)
-        ctk.CTkLabel(self, text=team_1[1], font=score_f, anchor="center").pack(side="top", anchor="center", fill="both", expand=True, padx=5, pady=5)
+        s1 = ctk.CTkLabel(self, text=team_1[1], font=score_f, anchor="center")
+        s1.pack(side="top", anchor="center", fill="both", expand=True, padx=5, pady=5)
 
         self.pack(side="left", expand=True, fill="both")
 
@@ -192,8 +205,11 @@ class t2(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
 
+        global s2
+
         ctk.CTkLabel(self, text=f"Team {team_2[0]}", font=title_f, anchor="w").pack(side="top", anchor="w", fill="x", padx=5, pady=5)
-        ctk.CTkLabel(self, text=team_2[1], font=score_f, anchor="center").pack(side="top", anchor="center", fill="both", expand=True, padx=5, pady=5)
+        s2 = ctk.CTkLabel(self, text=team_2[1], font=score_f, anchor="center")
+        s2.pack(side="top", anchor="center", fill="both", expand=True, padx=5, pady=5)
 
         self.pack(side="left", expand=True, fill="both")
 
