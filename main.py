@@ -49,6 +49,12 @@ class MainPage(ctk.CTkFrame):
         t_1(self)
         t_2(self)
 
+class TeamConfig(ctk.CTkFrame):
+    def __init__(self, master=None) -> None:
+        super().__init__(master)
+
+        ctk.CTkLabel(self, text="Configure the team")
+
 class BurgerMenu(ctk.CTkFrame):
     def __init__(self, master=None):
         super().__init__(master)
@@ -57,6 +63,7 @@ class BurgerMenu(ctk.CTkFrame):
 
         ctk.CTkLabel(self, text="Menu", font=normal_f).place(x=30,y=0)
         ctk.CTkButton(self, image=ctk.CTkImage(dark_image=Image.open("assets/Close.png")), text="", command=self.close_menu, width=20, fg_color="#ff6500", hover_color="#ff6500").place(x=230, y=10)
+        ctk.CTkButton(self, image=ctk.CTkImage(dark_image=Image.open("assets/team.png"), size=(40, 40)), text="Team Settings", fg_color="#ff6500").place(x=30, y=70)
         ctk.CTkButton(self, text="Exit", command=self.exit_app, width=90, fg_color="#800001", hover_color="#320001").place(x=0, y=550)
 
         self.place(x=0, y=0)
@@ -154,7 +161,7 @@ class CloseDialog(ctk.CTkToplevel):
 
         CloseButtons(self)
         ctk.CTkLabel(self, text="Are You Sure to Close?", font=normal_f).pack(side="left", anchor="center", pady=30)
-
+        self.grab_set()
         
 class CloseButtons(ctk.CTkFrame):
     def __init__(self, master=None):
